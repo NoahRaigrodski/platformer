@@ -55,7 +55,7 @@ public class Level {
 		restartLevel();
 	}
 
-	public LevelData getLevelData(){
+	public LevelData getLevelData() {
 		return leveldata;
 	}
 
@@ -89,7 +89,8 @@ public class Level {
 				else if (values[x][y] == 7)
 					tiles[x][y] = new SolidTile(xPosition, yPosition, tileSize, tileset.getImage("Grass"), this);
 				else if (values[x][y] == 8)
-					enemiesList.add(new Enemy(xPosition*tileSize, yPosition*tileSize, this)); // TODO: objects vs tiles
+					enemiesList.add(new Enemy(xPosition * tileSize, yPosition * tileSize, this)); // TODO: objects vs
+																									// tiles
 				else if (values[x][y] == 9)
 					tiles[x][y] = new Flag(xPosition, yPosition, tileSize, tileset.getImage("Flag"), this);
 				else if (values[x][y] == 10) {
@@ -167,10 +168,11 @@ public class Level {
 
 			for (int i = 0; i < flowers.size(); i++) {
 				if (flowers.get(i).getHitbox().isIntersecting(player.getHitbox())) {
-					if(flowers.get(i).getType() == 1)
+					if (flowers.get(i).getType() == 1)
 						water(flowers.get(i).getCol(), flowers.get(i).getRow(), map, 3);
-//					else
-//						addGas(flowers.get(i).getCol(), flowers.get(i).getRow(), map, 20, new ArrayList<Gas>());
+					// else
+					// addGas(flowers.get(i).getCol(), flowers.get(i).getRow(), map, 20, new
+					// ArrayList<Gas>());
 					flowers.remove(i);
 					i--;
 				}
@@ -191,16 +193,94 @@ public class Level {
 			camera.update(tslf);
 		}
 	}
-	
-	
-	//#############################################################################################################
-	//Your code goes here! 
-	//Please make sure you read the rubric/directions carefully and implement the solution recursively!
+
+	// #############################################################################################################
+	// Your code goes here!
+	// Please make sure you read the rubric/directions carefully and implement the
+	// solution recursively!
 	private void water(int col, int row, Map map, int fullness) {
-		
+
+		String imageName = "";
+		// The fullness of the next block being spread horizontally
+		int nextBlock = 0;
+		// Whether or not water is falling
+		boolean isFalling = false;
+
+		// If col or row are out of bounds then return
+		if (col < 0 || col >= map.getTiles().length || row < 0 || row >= map.getTiles()[col].length) {
+			return;
+		}
+
+		// If falling water is on the bottom row then return
+		if (row == map.getTiles()[col].length - 1 && fullness == 0) {
+			return;
+		}
+
+		// If the row under the current one isn't off the map then remember its
+		// posistion
+		if (row + 1 < map.getTiles()[col].length) {
+			Tile nextTile = map.getTiles()[col][row + 1];
+
+			// If the next tile isn't water and isn't solid then water is falling
+			if (!(nextTile instanceof Water) && !nextTile.isSolid()) {
+				isFalling = true;
+			}
+		}
+
+		// Assign the image of the water depending on fullness
+		if (fullness == 3) {
+			imageName = "Full_water";
+		} else if (fullness == 2) {
+			imageName = "Half_water";
+		} else if (fullness == 1) {
+			imageName = "Quarter_water";
+		} else if (fullness == 0) {
+			imageName = "Falling_water";
+		}
+
+		// If water already exists on a given tile, don't spawn more water on top of it
+		if (!(map.getTiles()[col][row] instanceof Water) || fullness == 3) {
+			Water w = new Water(col, row, tileSize, tileset.getImage(imageName), this, fullness);
+			map.addTile(col, row, w);
+		}
+
+		// check if we can go down
+		if (isFalling) {
+			fullness = 0;
+			water(col, row + 1, map, fullness);
+			return;
+			// If we're not falling and the block is falling water then land into a full
+			// block
+		} else if (!isFalling && fullness == 0) {
+			fullness = 3;
+			water(col, row, map, fullness);
+			return;
+		}
+
+		// if we can’t go down go left and right.
+		// right
+		// If water isn't falling then it must be spreading
+		if (fullness > 0) {
+
+			// If the water is a quarter block then the next water block should be too
+			if (fullness == 1) {
+				nextBlock = 1;
+				// If it isn't, then the next block should be 1 block less than the previous
+			} else {
+				nextBlock = fullness - 1;
+			}
+
+			if (col + 1 < map.getTiles().length && !(map.getTiles()[col + 1][row] instanceof Water)
+					&& !map.getTiles()[col + 1][row].isSolid()) {
+				water(col + 1, row, map, nextBlock);
+			}
+			// left
+			if (col - 1 >= 0 && !(map.getTiles()[col - 1][row] instanceof Water)
+					&& !map.getTiles()[col - 1][row].isSolid()) {
+				water(col - 1, row, map, nextBlock);
+			}
+		}
 	}
-
-
 
 	public void draw(Graphics g) {
 		g.translate((int) -camera.getX(), (int) -camera.getY());

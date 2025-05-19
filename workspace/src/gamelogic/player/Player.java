@@ -11,6 +11,7 @@ import gamelogic.level.Level;
 import gamelogic.tiles.Tile;
 
 public class Player extends PhysicsObject{
+	// before was 400 and 1350
 	public float walkSpeed = 400;
 	public float jumpPower = 1350;
 
