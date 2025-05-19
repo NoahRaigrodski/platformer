@@ -198,6 +198,9 @@ public class Level {
 	// Your code goes here!
 	// Please make sure you read the rubric/directions carefully and implement the
 	// solution recursively!
+	// pre condition: fullness is a number between 0 and 4
+	// post condition: a water block is created at the given coordinates with the
+	// given fullness level
 	private void water(int col, int row, Map map, int fullness) {
 
 		String imageName = "";
