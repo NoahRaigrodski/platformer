@@ -193,7 +193,9 @@ public class Level {
 		}
 	}
 
-	// Pre condition: col and row are both greater than 0; col < map.getTiles().length; row < map.getTiles()[col].length; numSquaresToFill > 0; placedThisRound is empty
+	// Pre condition: col and row are both greater than 0; col <
+	// map.getTiles().length; row < map.getTiles()[col].length; numSquaresToFill >
+	// 0; placedThisRound is empty
 	// Post condition: gas is made at the given location
 	private void addGas(int col, int row, Map map, int numSquaresToFill, ArrayList<Gas> placedThisRound) {
 		Gas g = new Gas(col, row, tileSize, tileset.getImage("GasOne"), this, 0);
@@ -206,8 +208,8 @@ public class Level {
 			int currRow = placedThisRound.get(0).getRow();
 
 			// Expand up
-			if (!map.getTiles()[currCol][currRow - 1].isSolid()
-					&& !(map.getTiles()[currCol][currRow - 1] instanceof Gas) && currRow - 1 >= 0) {
+			if (currRow - 1 >= 0 && !map.getTiles()[currCol][currRow - 1].isSolid()
+					&& !(map.getTiles()[currCol][currRow - 1] instanceof Gas)) {
 				Gas gas = new Gas(currCol, currRow - 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(currCol, currRow - 1, gas);
 				placedThisRound.add(gas);
@@ -220,9 +222,9 @@ public class Level {
 			}
 
 			// Expand up and right
-			if (!map.getTiles()[currCol + 1][currRow - 1].isSolid()
-					&& !(map.getTiles()[currCol + 1][currRow - 1] instanceof Gas) && currRow - 1 >= 0
-					&& currCol + 1 < map.getTiles().length) {
+			if (currRow - 1 >= 0
+					&& currCol + 1 < map.getTiles().length && !map.getTiles()[currCol + 1][currRow - 1].isSolid()
+					&& !(map.getTiles()[currCol + 1][currRow - 1] instanceof Gas)) {
 				Gas gas = new Gas(currCol + 1, currRow - 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(currCol + 1, currRow - 1, gas);
 				placedThisRound.add(gas);
@@ -235,9 +237,9 @@ public class Level {
 			}
 
 			// Expand up and left
-			if (!map.getTiles()[currCol - 1][currRow - 1].isSolid()
-					&& !(map.getTiles()[currCol - 1][currRow - 1] instanceof Gas) && currRow - 1 >= 0
-					&& currCol - 1 >= 0) {
+			if (currRow - 1 >= 0
+					&& currCol - 1 >= 0 && !map.getTiles()[currCol - 1][currRow - 1].isSolid()
+					&& !(map.getTiles()[currCol - 1][currRow - 1] instanceof Gas)) {
 				Gas gas = new Gas(currCol - 1, currRow - 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(currCol - 1, currRow - 1, gas);
 				placedThisRound.add(gas);
@@ -250,8 +252,8 @@ public class Level {
 			}
 
 			// Expand right
-			if (!map.getTiles()[currCol + 1][currRow].isSolid()
-					&& !(map.getTiles()[currCol + 1][currRow] instanceof Gas) && currCol + 1 < map.getTiles().length) {
+			if (currCol + 1 < map.getTiles().length && !map.getTiles()[currCol + 1][currRow].isSolid()
+					&& !(map.getTiles()[currCol + 1][currRow] instanceof Gas)) {
 				Gas gas = new Gas(currCol + 1, currRow, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(currCol + 1, currRow, gas);
 				placedThisRound.add(gas);
@@ -264,8 +266,8 @@ public class Level {
 			}
 
 			// Expand left
-			if (!map.getTiles()[currCol - 1][currRow].isSolid()
-					&& !(map.getTiles()[currCol - 1][currRow] instanceof Gas) && currCol - 1 >= 0) {
+			if (currCol - 1 >= 0 && !map.getTiles()[currCol - 1][currRow].isSolid()
+					&& !(map.getTiles()[currCol - 1][currRow] instanceof Gas)) {
 				Gas gas = new Gas(currCol - 1, currRow, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(currCol - 1, currRow, gas);
 				placedThisRound.add(gas);
@@ -278,9 +280,8 @@ public class Level {
 			}
 
 			// Expand down
-			if (!map.getTiles()[currCol][currRow + 1].isSolid()
-					&& !(map.getTiles()[currCol][currRow + 1] instanceof Gas)
-					&& currRow + 1 < map.getTiles()[currCol].length) {
+			if (currRow + 1 < map.getTiles()[currCol].length && !map.getTiles()[currCol][currRow + 1].isSolid()
+					&& !(map.getTiles()[currCol][currRow + 1] instanceof Gas)) {
 				Gas gas = new Gas(currCol, currRow + 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(currCol, currRow + 1, gas);
 				placedThisRound.add(gas);
@@ -293,9 +294,9 @@ public class Level {
 			}
 
 			// Expand down + right
-			if (!map.getTiles()[currCol + 1][currRow + 1].isSolid()
-					&& !(map.getTiles()[currCol + 1][currRow + 1] instanceof Gas)
-					&& currRow + 1 < map.getTiles()[currCol].length && currCol + 1 < map.getTiles().length) {
+			if (currRow + 1 < map.getTiles()[currCol].length && currCol + 1 < map.getTiles().length
+					&& !map.getTiles()[currCol + 1][currRow + 1].isSolid()
+					&& !(map.getTiles()[currCol + 1][currRow + 1] instanceof Gas)) {
 				Gas gas = new Gas(currCol + 1, currRow + 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(currCol + 1, currRow + 1, gas);
 				placedThisRound.add(gas);
@@ -308,9 +309,9 @@ public class Level {
 			}
 
 			// Expand down + left
-			if (!map.getTiles()[currCol - 1][currRow + 1].isSolid()
-					&& !(map.getTiles()[currCol - 1][currRow + 1] instanceof Gas)
-					&& currRow + 1 < map.getTiles()[currCol].length && currCol - 1 >= 0) {
+			if (currRow + 1 < map.getTiles()[currCol].length && currCol - 1 >= 0
+					&& !map.getTiles()[currCol - 1][currRow + 1].isSolid()
+					&& !(map.getTiles()[currCol - 1][currRow + 1] instanceof Gas)) {
 				Gas gas = new Gas(currCol - 1, currRow + 1, tileSize, tileset.getImage("GasOne"), this, 0);
 				map.addTile(currCol - 1, currRow + 1, gas);
 				placedThisRound.add(gas);
